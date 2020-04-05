@@ -13,7 +13,16 @@ public class FilterCall extends Call {
             throw new TypeError("Filter must get boolean, got integer");
     }
 
+    /**
+     * Adds another condition to current Filter call
+     * If expression == null then obviously expression is condition.
+     * Else it's simply (currentExpression AND condition)
+     *
+     * @param condition condition to add
+     */
     public void appendCondition(Expression condition) {
+        if (!condition.isBoolean)
+            throw new TypeError("Condition must return boolean, returned integer");
         if (expression == null)
             expression = condition;
         else

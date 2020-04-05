@@ -5,9 +5,19 @@ import error.TypeError;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import syntax.CallChain;
+import syntax.Element;
+import syntax.FilterCall;
 
 public class ConverterTest {
 
+    /**
+     * Test Converter::convert function with given input
+     * 1. It gets result of Converter.convert(input)
+     * 2. It tries to make call chain object from it
+     * 3. It checks if resulting call chain if equal to the result of Converter::convert from that call chain
+     *
+     * @param input given input
+     */
     private void convert(String input) {
         String result = Converter.convert(input).toString();
         CallChain callChain = CallChain.valueOf(result);
@@ -24,6 +34,7 @@ public class ConverterTest {
         convert("map{(element*element)}%>%map{(element*element)}%>%map{(element*element)}");
         convert("filter{(1=0)}");
         convert("map{(element+5)}");
+        convert("map{(element+-5)}");
         convert("map{-7}");
     }
 
@@ -61,5 +72,9 @@ public class ConverterTest {
                 () -> convert("map{((element>1)&(element<1))}"));
         Assertions.assertThrows(TypeError.class,
                 () -> convert("filter{((element>1)&element)}"));
+        Assertions.assertThrows(TypeError.class,
+                () -> convert("filter{element}"));
+        Assertions.assertThrows(TypeError.class,
+                () -> convert("filter{-42}"));
     }
 }

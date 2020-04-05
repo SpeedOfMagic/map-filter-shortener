@@ -7,6 +7,12 @@ public class Expression {
 
     Expression() {}
 
+    /**
+     * Changes all occurrences of "element" into given expression;
+     * it only applies to BinaryExpression since Element shouldn't change and ConstantExpression doesn't have "element"
+     *
+     * @param expression given expression
+     */
     public void changeElementTo(Expression expression) {
         if (this instanceof BinaryExpression) {
             BinaryExpression result = (BinaryExpression) this;
